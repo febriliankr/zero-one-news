@@ -6,8 +6,6 @@ const ArticleServices = {
 };
 
 function GetArticlesListHandler(req, reply) {
-  const { page, limit } = getPagination(req);
-
   req.server.pg.connect(onConnect);
 
   function onConnect(err, client, release) {
@@ -15,7 +13,6 @@ function GetArticlesListHandler(req, reply) {
 
     client.query(
       'SELECT * FROM topics WHERE id=$1',
-      // @ts-ignore
       [req.params.id],
       function onResult(err, result) {
         release();
