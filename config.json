@@ -1,0 +1,18 @@
+{
+  "transforms": [
+    {
+      "mode": "sq",
+      "include": "**/*.sql",
+      "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+    }
+  ],
+  "srcDir": "./src/",
+  "failOnError": false,
+  "camelCaseColumnNames": false,
+  "db": {
+    "host": "localhost",
+    "user": "febrilian",
+    "dbName": "zero_one_news",
+    "password": ""
+  }
+}
