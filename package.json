@@ -7,6 +7,9 @@
     "dev": "nodemon",
     "build": "etsc"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "private": true,
   "dependencies": {
     "@fastify/postgres": "^4.0.0",
