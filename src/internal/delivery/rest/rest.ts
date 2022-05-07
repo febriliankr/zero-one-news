@@ -26,10 +26,12 @@ function StartREST(config: Config) {
   server.post('/admin/topics', implementedSoon);
   server.patch('/admin/topics', implementedSoon);
   server.post('/admin/articles', implementedSoon);
-  server.post('/admin/articles', implementedSoon);
+  server.patch('/admin/articles', implementedSoon);
 }
 
 function healthCheck(req, reply) {
+  const d = req.client;
+  console.log('d', d);
   reply.send('OK');
 }
 

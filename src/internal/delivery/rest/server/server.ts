@@ -1,5 +1,6 @@
 import fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import { Config } from '../../../../config/config';
+import dbconnector from '../../../adapters/postgres';
 
 function StartServer(config: Config) {
   const server = fastify();
@@ -12,6 +13,7 @@ function StartServer(config: Config) {
       max: 120,
       timeWindow: '1 minute',
     });
+    await dbconnector(server);
   })();
 
   const port = config.server.port;

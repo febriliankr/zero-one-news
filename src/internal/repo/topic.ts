@@ -17,13 +17,7 @@ async function GetTopicList(
   input: GetTopicListRequest
 ): Promise<GetTopicListResponse> {
   const sql = queries.topics.queryGetAllTopics;
-  console.log(
-    'sql, input.title, input.offset, input.limit',
-    sql,
-    input.title,
-    input.offset,
-    input.limit
-  );
+
   try {
     const { rows } = await client.query(sql, [
       input.title,

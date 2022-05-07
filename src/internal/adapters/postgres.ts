@@ -1,17 +1,15 @@
 import fastifyPlugin from 'fastify-plugin';
 import { Client } from 'pg';
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-});
-
-async function dbconnector(fastify, options) {
+async function dbconnector(fastify) {
   try {
+    const client = new Client({
+      connectionString: process.env.DATABASE_URL,
+    });
     await client.connect();
-    console.log('db connected succesfully');
     fastify.decorate('db', { client });
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
   }
 }
 

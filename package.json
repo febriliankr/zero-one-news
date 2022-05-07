@@ -19,6 +19,7 @@
     "dotenv": "^16.0.0",
     "fastify": "^3.29.0",
     "fastify-plugin": "^3.0.1",
+    "middie": "^6.0.0",
     "pg": "^8.7.3"
   },
   "devDependencies": {

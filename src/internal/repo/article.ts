@@ -17,13 +17,7 @@ async function GetArticleList(
   input: GetArticleListRequest
 ): Promise<GetArticleListResponse> {
   const sql = queries.articles.queryGetAllArticles;
-  console.log(
-    'sql, input.title, input.offset, input.limit',
-    sql,
-    input.title,
-    input.offset,
-    input.limit
-  );
+
   try {
     const { rows } = await client.query(sql, [
       input.title,

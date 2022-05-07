@@ -11,6 +11,7 @@ const ArticleServices = {
 };
 
 async function GetArticleByIDHandler(req, reply) {
+  
   await req.server.pg.connect(onConnect);
 
   const input: GetArticleByIDRequest = {

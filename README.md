@@ -33,9 +33,13 @@ Tech Stack:
 ## Additional Stuffs
 
 - [ ] Auth
+- [ ] Use decorators for database connection
+  - https://www.fastify.io/docs/latest/Guides/Plugins-Guide/#decorators
+- [ ] Middleware using https://github.com/fastify/middie
 - [ ] Separate content from admin endpoint
 - [ ] API versioning
 
 ## Demo
 
 Demo https://zero-one-news.herokuapp.com
+
