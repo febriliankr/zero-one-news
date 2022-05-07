@@ -38,7 +38,7 @@ async function GetArticleListHandler(req, reply) {
   const pagination = getPagination(req);
   const input: GetArticleListRequest = {
     ...pagination,
-    title: req.query.title || "",
+    title: req.query.title || '',
   };
 
   async function onConnect(err, client) {

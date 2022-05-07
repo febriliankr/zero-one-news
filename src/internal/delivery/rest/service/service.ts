@@ -1,10 +1,10 @@
 import Articles from './article';
-import Topics from './topic';
+import TopicsService from './topic';
 
 function NewServices() {
   return {
     Articles,
-    Topics,
+    Topics: TopicsService,
   };
 }
 

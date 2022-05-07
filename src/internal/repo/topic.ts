@@ -1,18 +1,67 @@
+import {
+  GetTopicByIDRequest,
+  GetTopicByIDResponse,
+  GetTopicListRequest,
+  GetTopicListResponse,
+  Topic,
+} from '../entity/topic';
 import queries from './queries';
 
 const TopicRepo = {
-  GetTopicsList,
+  GetTopicList,
+  GetTopicByID,
 };
-async function GetTopicsList(client, release, input) {
-  const query = queries.topics.queryGetAllTopics;
 
-  const [res, err] = await client.query(query, function onResult(err, result) {
-    release();
-    const rows = result.rows;
-    return [rows, err];
-  });
+async function GetTopicList(
+  client,
+  input: GetTopicListRequest
+): Promise<GetTopicListResponse> {
+  const sql = queries.topics.queryGetAllTopics;
+  console.log(
+    'sql, input.title, input.offset, input.limit',
+    sql,
+    input.title,
+    input.offset,
+    input.limit
+  );
+  try {
+    const { rows } = await client.query(sql, [
+      input.title,
+      input.offset,
+      input.limit,
+    ]);
+    const Topics: Topic[] = rows;
+    return {
+      data: Topics,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
+}
 
-  return [res, err];
+async function GetTopicByID(
+  client,
+  input: GetTopicByIDRequest
+): Promise<GetTopicByIDResponse> {
+  try {
+    const { rows } = await client.query(queries.topics.queryGetTopicById, [
+      input.topic_id,
+    ]);
+    const Topic: Topic = rows[0];
+    return {
+      data: Topic,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
 }
 
 export default TopicRepo;

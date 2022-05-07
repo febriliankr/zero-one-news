@@ -1,25 +1,55 @@
+import {
+  GetTopicByIDRequest,
+  GetTopicListRequest,
+} from '../../../entity/topic';
+import repo from '../../../repo/repo';
 import { getPagination } from './request';
 
-const Topics = { GetTopicListHandler };
+const TopicsService = { GetTopicListHandler, GetTopicByIDHandler };
 
-function GetTopicListHandler(req, reply) {
-  const { page, limit } = getPagination(req);
-  const offset = (page - 1) * limit;
+async function GetTopicByIDHandler(req, reply) {
+  await req.server.pg.connect(onConnect);
 
-  // @ts-ignore
-  req.server.pg.connect(onConnect);
-  function onConnect(err, client, release) {
+  const input: GetTopicByIDRequest = {
+    topic_id: req.params.topic_id,
+  };
+
+  async function onConnect(err, client) {
     if (err) return reply.send(err);
-
-    client.query(
-      'SELECT * FROM topics LIMIT $1 OFFSET $2',
-      [limit, offset],
-      function onResult(err, result) {
-        release();
-        reply.send(err || result);
-      }
-    );
+    try {
+      const repoRes = await repo.TopicRepo.GetTopicByID(client, input);
+      const { data, error } = repoRes;
+      if (error) return reply.send(error);
+      return reply.send(data);
+    } catch (err) {
+      reply.send(err);
+    } finally {
+      client.release();
+    }
   }
 }
 
-export default Topics;
+async function GetTopicListHandler(req, reply) {
+  await req.server.pg.connect(onConnect);
+  const pagination = getPagination(req);
+  const input: GetTopicListRequest = {
+    ...pagination,
+    title: req.query.title || '',
+  };
+
+  async function onConnect(err, client) {
+    if (err) return reply.send(err);
+    try {
+      const repoRes = await repo.TopicRepo.GetTopicList(client, input);
+
+      const { data, error } = repoRes;
+      if (error) return reply.send(error);
+      return reply.send(data);
+    } catch (err) {
+      reply.send(err);
+    } finally {
+      client.release();
+    }
+  }
+}
+export default TopicsService;
