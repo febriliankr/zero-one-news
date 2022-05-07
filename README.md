@@ -35,4 +35,17 @@ Tech Stack:
 - [ ] Auth
 - [ ] Separate content from admin endpoint
 - [ ] API versioning
-- 
+
+
+## Deployment
+
+npm ERR! Missing: @fastify/postgres@^4.0.0
+@fastify/rate-limit@^6.0.0
+@pgtyped/cli@^0.13.0
+@pgtyped/query@^0.13.0
+lock file's dotenv@10.0.0 does not satisfy dotenv@^16.0.0
+fastify@^3.29.0
+fastify-plugin@^3.0.1
+pg@^8.7.3
+esbuild@^0.14.38
+esbuild-node-tsc@^1.8.5
