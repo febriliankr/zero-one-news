@@ -28,6 +28,7 @@ function StartREST(config: Config) {
   const server = StartServer(config);
   const svc = Services;
 
+  server.get('/', healthCheck);
   server.get('/health', healthCheck);
   server.get('/articles', svc.Articles.GetArticlesListHandler);
 //   server.get('/articles/:article_id', null);

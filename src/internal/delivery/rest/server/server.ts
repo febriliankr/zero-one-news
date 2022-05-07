@@ -3,9 +3,14 @@ import { Config } from '../../../../config/config';
 
 function StartServer(config: Config) {
   const server = fastify();
+
   (async () => {
     await server.register(require('@fastify/postgres'), {
       connectionString: process.env.DATABASE_URL,
+    });
+    await server.register(require('@fastify/rate-limit'), {
+      max: 120,
+      timeWindow: '1 minute',
     });
   })();
 
