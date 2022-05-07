@@ -1,7 +1,9 @@
-import ArticlesRepo from './article';
+import ArticleRepo from './article';
+import TopicRepo from './topic';
 
 const repo = {
-  articles: ArticlesRepo,
+  ArticleRepo,
+  TopicRepo,
 };
 
 export default repo;

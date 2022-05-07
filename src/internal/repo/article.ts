@@ -1,5 +1,14 @@
 import queries from './queries';
 
+function ArticleRepo(client, release, input) {
+  GetArticlesList(client, release, input);
+  GetArticleByID(client, release, input);
+  return {
+    GetArticlesList,
+    GetArticleByID,
+  };
+}
+
 function GetArticlesList(client, release, input) {
   // TODO Fetch offset and limit from input
   const query = queries.articles.queryGetAllArticles;
@@ -20,9 +29,4 @@ function GetArticleByID(client, release, input) {
   });
 }
 
-const ArticlesRepo = {
-  GetArticlesList,
-  GetArticleByID,
-};
-
-export default ArticlesRepo;
+export default ArticleRepo;

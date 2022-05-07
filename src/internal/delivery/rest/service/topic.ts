@@ -1,5 +1,4 @@
 import { getPagination } from './request';
-import { RestContext } from './types';
 
 const Topics = { GetTopicListHandler };
 

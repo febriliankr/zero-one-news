@@ -35,10 +35,10 @@ Features:
 
 - [ ] Bonus points for:
 
-- [ ] An actual deployment using one of Heroku, Vercel, Netlify, GCP, Firebase, AWS, or any other platform for serving the application.
+  - [ ] An actual deployment using one of Heroku, Vercel, Netlify, GCP, Firebase, AWS, or any other platform for serving the application.
 
-- [ ] One unit and integration test.
+  - [ ] One unit and integration test.
 
-- [ ] Create CI/CD.
+  - [ ] Create CI/CD.
 
 Delivery: put the final code on a repository on GitHub, GitLab, and BitBucket, and share the repository with me.

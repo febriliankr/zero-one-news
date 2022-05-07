@@ -1,9 +1,11 @@
 import queries from './queries';
 
-const ArticlesRepo = {
-  GetTopicsList,
-};
-
+function TopicRepo(client, release, input) {
+  GetTopicsList(client, release, input);
+  return {
+    GetTopicsList,
+  };
+}
 function GetTopicsList(client, release, input) {
   const query = queries.topics.queryGetAllTopics;
 
@@ -14,4 +16,4 @@ function GetTopicsList(client, release, input) {
   });
 }
 
-export default ArticlesRepo;
+export default TopicRepo;
