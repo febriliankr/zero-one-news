@@ -1,32 +1,67 @@
+import {
+  Article,
+  GetArticleByIDRequest,
+  GetArticleByIDResponse,
+  GetArticleListRequest,
+  GetArticleListResponse,
+} from '../entity/article';
 import queries from './queries';
 
-function ArticleRepo(client, release, input) {
-  GetArticlesList(client, release, input);
-  GetArticleByID(client, release, input);
-  return {
-    GetArticlesList,
-    GetArticleByID,
-  };
+const ArticleRepo = {
+  GetArticleList,
+  GetArticleByID,
+};
+
+async function GetArticleList(
+  client,
+  input: GetArticleListRequest
+): Promise<GetArticleListResponse> {
+  const sql = queries.articles.queryGetAllArticles;
+  console.log(
+    'sql, input.title, input.offset, input.limit',
+    sql,
+    input.title,
+    input.offset,
+    input.limit
+  );
+  try {
+    const { rows } = await client.query(sql, [
+      input.title,
+      input.offset,
+      input.limit,
+    ]);
+    const articles: Article[] = rows;
+    return {
+      data: articles,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
 }
 
-function GetArticlesList(client, release, input) {
-  // TODO Fetch offset and limit from input
-  const query = queries.articles.queryGetAllArticles;
-
-  client.query(query, function onResult(err, result) {
-    release();
-    return [result, err];
-    // reply.send(err || result);
-  });
-}
-function GetArticleByID(client, release, input) {
-  const query = queries.articles.queryGetArticleById;
-
-  client.query(query, [input.topic_id], function onResult(err, result) {
-    release();
-    return [result, err];
-    // reply.send(err || result);
-  });
+async function GetArticleByID(
+  client,
+  input: GetArticleByIDRequest
+): Promise<GetArticleByIDResponse> {
+  try {
+    const { rows } = await client.query(queries.articles.queryGetArticleById, [
+      input.article_id,
+    ]);
+    const article: Article = rows[0];
+    return {
+      data: article,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
 }
 
 export default ArticleRepo;

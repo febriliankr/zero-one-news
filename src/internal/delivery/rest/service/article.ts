@@ -1,24 +1,59 @@
+import {
+  GetArticleByIDRequest,
+  GetArticleListRequest,
+} from '../../../entity/article';
+import repo from '../../../repo/repo';
 import { getPagination } from './request';
-import { RestContext } from './types';
 
 const ArticleServices = {
-  GetArticlesListHandler,
+  GetArticleByIDHandler,
+  GetArticleListHandler,
 };
 
-function GetArticlesListHandler(req, reply) {
-  req.server.pg.connect(onConnect);
+async function GetArticleByIDHandler(req, reply) {
+  await req.server.pg.connect(onConnect);
 
-  function onConnect(err, client, release) {
+  const input: GetArticleByIDRequest = {
+    article_id: req.params.article_id,
+  };
+
+  async function onConnect(err, client) {
     if (err) return reply.send(err);
+    try {
+      const repoRes = await repo.ArticleRepo.GetArticleByID(client, input);
+      const { data, error } = repoRes;
+      if (error) return reply.send(error);
+      return reply.send(data);
+    } catch (err) {
+      reply.send(err);
+    } finally {
+      client.release();
+    }
+  }
+}
 
-    client.query(
-      'SELECT * FROM topics WHERE id=$1',
-      [req.params.id],
-      function onResult(err, result) {
-        release();
-        reply.send(err || result);
-      }
-    );
+async function GetArticleListHandler(req, reply) {
+  await req.server.pg.connect(onConnect);
+
+  const pagination = getPagination(req);
+  const input: GetArticleListRequest = {
+    ...pagination,
+    title: req.query.title || "",
+  };
+
+  async function onConnect(err, client) {
+    if (err) return reply.send(err);
+    try {
+      const repoRes = await repo.ArticleRepo.GetArticleList(client, input);
+
+      const { data, error } = repoRes;
+      if (error) return reply.send(error);
+      return reply.send(data);
+    } catch (err) {
+      reply.send(err);
+    } finally {
+      client.release();
+    }
   }
 }
 

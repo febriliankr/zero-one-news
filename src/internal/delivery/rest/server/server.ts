@@ -18,10 +18,7 @@ function StartServer(config: Config) {
 
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(
-      // @ts-ignore
-      `server listening on https://localhost:${server.server.address().port}`
-    );
+    console.log(`server listening on https://localhost:${port}`);
   });
 
   return server;

@@ -1,43 +1,25 @@
-// // Start server
-// func Start(app *app.HeartApp) {
-// 	srv := server.New()
-// 	svc := service.GetServices(app)
-
 import { Config } from '../../../config/config';
 import { StartServer } from './server/server';
-import Services from './service/service';
-import GetServices from './service/service';
-import Topics from './service/topic';
-
-// Start server
-
-// func Start(app *app.HeartApp) {
-// 	srv := server.New()
-// 	svc := service.GetServices(app)
-
-// 	Init Drivers Handlers
-
-// 	users := srv.Group("/users")
-// 	users.GET("", svc.GetUserListHandler)
-// 	users.GET("/:id", svc.GetUserHandler)
-
-// 	server.Start(srv, &app.Cfg.Server)
-// }
+import NewServices from './service/service';
 
 function StartREST(config: Config) {
   const server = StartServer(config);
-  const svc = Services;
+  const svc = NewServices();
 
-  server.get('/', healthCheck);
+  server.get('/', home);
   server.get('/health', healthCheck);
-  server.get('/articles', svc.Articles.GetArticlesListHandler);
-//   server.get('/articles/:article_id', null);
+  server.get('/articles/:article_id', svc.Articles.GetArticleByIDHandler);
+  server.get('/articles', svc.Articles.GetArticleListHandler);
   server.get('/topics', svc.Topics.GetTopicListHandler);
-//   server.get('/topics/:article_id', null);
+  //   server.get('/topics/:article_id', null);
 }
 
 function healthCheck(req, reply) {
   reply.send('OK');
+}
+
+function home(req, reply) {
+  reply.send('Home');
 }
 
 export default StartREST;

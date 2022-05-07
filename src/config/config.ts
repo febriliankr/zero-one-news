@@ -9,7 +9,6 @@ function readConfig(dotenv) {
     },
   };
 
-  console.log(cfg);
   return cfg;
 }
 

@@ -6,4 +6,10 @@ const repo = {
   TopicRepo,
 };
 
+export type RepoContext = {
+  client: any;
+  release: any;
+  input: any;
+};
+
 export default repo;

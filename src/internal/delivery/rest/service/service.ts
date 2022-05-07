@@ -1,9 +1,11 @@
 import Articles from './article';
 import Topics from './topic';
 
-const Services = {
-  Articles,
-  Topics,
-};
+function NewServices() {
+  return {
+    Articles,
+    Topics,
+  };
+}
 
-export default Services;
+export default NewServices;
