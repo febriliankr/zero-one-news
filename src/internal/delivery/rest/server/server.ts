@@ -1,6 +1,5 @@
 import fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import { Config } from '../../../../config/config';
-import dbconnector from '../../../adapters/postgres';
 
 function StartServer(config: Config) {
   const server = fastify();
@@ -13,14 +12,17 @@ function StartServer(config: Config) {
       max: 120,
       timeWindow: '1 minute',
     });
-    await dbconnector(server);
   })();
+
+  // @ts-ignore
+  const db = Object.keys(server);
+  console.log('db', db);
 
   const port = config.server.port;
 
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`server listening on https://localhost:${port}`);
+    console.log(`server listening on http://localhost:${port}`);
   });
 
   return server;
