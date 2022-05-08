@@ -1,6 +1,16 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyRequest } from 'fastify';
+import {
+  CreateArticleRequest,
+  GetArticleByIDRequest,
+} from '../../../entity/article';
 
-export type RestContext = {
-  req: FastifyRequest;
-  reply: FastifyReply;
-};
+export interface GlobalFastifyRequest extends FastifyRequest {
+  server: any;
+}
+export interface CreateArticleHandlerFastifyRequest
+  extends GlobalFastifyRequest {
+  body: CreateArticleRequest;
+}
+export interface GetArticleByIDFastifyRequest extends GlobalFastifyRequest {
+  params: GetArticleByIDRequest;
+}
