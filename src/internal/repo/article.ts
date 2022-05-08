@@ -1,5 +1,7 @@
 import {
   Article,
+  CreateArticleRequest,
+  CreateArticleResponse,
   GetArticleByIDRequest,
   GetArticleByIDResponse,
   GetArticleListRequest,
@@ -10,6 +12,7 @@ import queries from './queries';
 const ArticleRepo = {
   GetArticleList,
   GetArticleByID,
+  CreateArticle,
 };
 
 async function GetArticleList(
@@ -46,6 +49,36 @@ async function GetArticleByID(
       input.article_id,
     ]);
     const article: Article = rows[0];
+    return {
+      data: article,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
+}
+
+async function CreateArticle(
+  client,
+  input: CreateArticleRequest
+): Promise<CreateArticleResponse> {
+  try {
+    // $1, $2, $3, $4, $5, $6, $7, $8, $9
+    const params = [
+      input.title,
+      input.content_plain,
+      input.content_html,
+      input.slug,
+      input.author,
+      input.excerpt,
+      input.published,
+    ];
+    const sql = queries.articles.queryCreateArticle;
+    const { rows } = await client.query(sql, params);
+    const article = rows[0];
     return {
       data: article,
       error: null,

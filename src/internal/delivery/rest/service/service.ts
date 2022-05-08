@@ -1,9 +1,9 @@
-import Articles from './article';
+import ArticleService from './article';
 import TopicsService from './topic';
 
 function NewServices() {
   return {
-    Articles,
+    Articles: ArticleService,
     Topics: TopicsService,
   };
 }
