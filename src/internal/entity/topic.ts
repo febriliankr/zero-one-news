@@ -7,7 +7,10 @@ export type GetTopicByIDRequest = {
   topic_id: number;
 };
 
-export type GetTopicByIDResponse = { data: Topic; error: Error };
+export type GetTopicByIDResponse = {
+  data: Topic;
+  error: Error;
+};
 
 export type GetTopicListRequest = {
   page: number;
@@ -16,4 +19,7 @@ export type GetTopicListRequest = {
   title?: string;
 };
 
-export type GetTopicListResponse = { data: Topic[]; error: Error };
+export type GetTopicListResponse = {
+  data: Topic[];
+  error: Error;
+};
