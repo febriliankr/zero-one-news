@@ -20,7 +20,8 @@
     "fastify": "^3.29.0",
     "fastify-plugin": "^3.0.1",
     "middie": "^6.0.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@nrwl/cli": "14.1.4",

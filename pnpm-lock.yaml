@@ -19,6 +19,7 @@ specifiers:
   pg: ^8.7.3
   prettier: ^2.5.1
   typescript: ~4.6.4
+  uuid: ^8.3.2
 
 dependencies:
   '@fastify/postgres': 4.0.0_pg@8.7.3
@@ -30,6 +31,7 @@ dependencies:
   fastify-plugin: 3.0.1
   middie: 6.0.0
   pg: 8.7.3
+  uuid: 8.3.2
 
 devDependencies:
   '@nrwl/cli': 14.1.4_typescript@4.6.4
@@ -4828,6 +4830,11 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
     dev: true
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
