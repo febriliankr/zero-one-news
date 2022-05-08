@@ -2,6 +2,7 @@ import { FastifyRequest } from 'fastify';
 import {
   CreateArticleRequest,
   GetArticleByIDRequest,
+  GetArticleListRequest,
 } from '../../../entity/article';
 
 export interface GlobalFastifyRequest extends FastifyRequest {
@@ -13,4 +14,7 @@ export interface CreateArticleHandlerFastifyRequest
 }
 export interface GetArticleByIDFastifyRequest extends GlobalFastifyRequest {
   params: GetArticleByIDRequest;
+}
+export interface GetArticleListFastifyRequest extends GlobalFastifyRequest {
+  query: GetArticleListRequest;
 }

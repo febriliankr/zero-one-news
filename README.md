@@ -33,6 +33,9 @@ Tech Stack:
 - [ ] Auth
 - [ ] Use decorators for database connection
   - https://www.fastify.io/docs/latest/Guides/Plugins-Guide/#decorators
+  - server.pg.query("SELECT * FROM articles")
+  - Hacky solution: https://stackoverflow.com/questions/70616395/fastifyis-not-defined-and-fastify-postgres-fastify-pg-connect-not-working
+    - currently using this solution
 - [ ] Middleware using https://github.com/fastify/middie
 - [ ] Separate content from admin endpoint
 - [ ] API versioning
@@ -40,3 +43,17 @@ Tech Stack:
 ## Demo
 
 Demo https://zero-one-news.herokuapp.com
+
+## Nyampah
+
+### Example Body Request
+
+{
+  "title": "Working on a Test",
+  "content_plain": "This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.",
+  "content_html": "This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.",
+  "slug": "working-on-a-test",
+  "author": "Febrilian Kristiawan",
+  "published": true,
+  "excerpt": "Public email about test"
+};

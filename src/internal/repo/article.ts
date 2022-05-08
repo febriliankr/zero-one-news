@@ -1,3 +1,4 @@
+import { PostgresDb } from '@fastify/postgres';
 import {
   Article,
   CreateArticleRequest,
@@ -16,13 +17,13 @@ const ArticleRepo = {
 };
 
 async function GetArticleList(
-  client,
+  db: PostgresDb,
   input: GetArticleListRequest
 ): Promise<GetArticleListResponse> {
   const sql = queries.articles.queryGetAllArticles;
 
   try {
-    const { rows } = await client.query(sql, [
+    const { rows } = await db.query(sql, [
       input.title,
       input.offset,
       input.limit,
