@@ -3,6 +3,8 @@ import {
   Article,
   CreateArticleRequest,
   CreateArticleResponse,
+  DeleteArticleRequest,
+  DeleteArticleResponse,
   GetArticleBySlugRequest,
   GetArticleBySlugResponse,
   GetArticleListRequest,
@@ -17,6 +19,7 @@ const ArticleRepo = {
   GetArticleBySlug,
   CreateArticle,
   UpdateArticle,
+  DeleteArticle,
 };
 
 async function GetArticleList(
@@ -133,7 +136,6 @@ async function UpdateArticle(
       input.article_id,
     ];
 
-    
     const sql = queries.articles.queryUpdateArticle;
     const { rows: articleRows } = await client.query(sql, params);
     const article = articleRows[0];
@@ -156,6 +158,31 @@ async function UpdateArticle(
   } catch (err) {
     return {
       data: null,
+      error: err,
+    };
+  }
+}
+
+async function DeleteArticle(
+  client,
+  input: DeleteArticleRequest
+): Promise<DeleteArticleResponse> {
+  try {
+    const params = [input.article_id];
+
+    const sql = queries.articles.queryDeleteArticle;
+    const { rows: articleRows } = await client.query(sql, params);
+    const article = articleRows[0];
+
+    await client.query(queries.articles.queryCleanArticleTopicByArticleID, [
+      input.article_id,
+    ]);
+
+    return {
+      error: null,
+    };
+  } catch (err) {
+    return {
       error: err,
     };
   }

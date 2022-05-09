@@ -26,6 +26,10 @@ function StartREST(config: Config) {
     '/admin/articles/:article_id',
     svc.Articles.UpdateArticleHandler
   );
+  server.delete(
+    '/admin/articles/:article_id',
+    svc.Articles.DeleteArticleHandler
+  );
 
   // Admin / Topics
   server.post('/admin/topics', svc.Topics.CreateTopicHandler);

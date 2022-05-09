@@ -1,7 +1,7 @@
 import { FastifyReply } from 'fastify';
 import Joi from 'joi';
 
-function SendOK(reply: FastifyReply, data: any) {
+function SendOK(reply: FastifyReply, data: any, message: string = 'OK') {
   return reply.send({ success: true, data, error: null });
 }
 

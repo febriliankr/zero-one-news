@@ -108,3 +108,12 @@ export type UpdateArticleResponse = {
   };
   error: Error;
 };
+
+// Delete Article
+export type DeleteArticleRequest = {
+  article_id: number;
+};
+
+export type DeleteArticleResponse = {
+  error: Error;
+};

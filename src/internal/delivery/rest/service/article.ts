@@ -1,12 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   CreateArticleRequest,
+  DeleteArticleRequest,
   GetArticleBySlugRequest,
   GetArticleListRequest,
   UpdateArticleRequest,
 } from '../../../entity/article';
 import repo from '../../../repo/repo';
 import { getPagination } from './request';
+import { SendOK } from './response';
 import {
   CreateArticleHandlerFastifyRequest,
   GetArticleBySlugFastifyRequest,
@@ -17,6 +19,7 @@ const ArticleService = {
   GetArticleListHandler,
   CreateArticleHandler,
   UpdateArticleHandler,
+  DeleteArticleHandler,
 };
 
 async function GetArticleBySlugHandler(
@@ -126,6 +129,29 @@ async function UpdateArticleHandler(req: any, reply: FastifyReply) {
 
       if (error) return reply.send(error);
       return reply.send(data);
+    } catch (err) {
+      reply.send(err);
+    } finally {
+      client.release();
+    }
+  }
+}
+
+async function DeleteArticleHandler(req: any, reply: FastifyReply) {
+  await req.server.pg.connect(onConnect);
+
+  const input: DeleteArticleRequest = {
+    article_id: req.params.article_id,
+  };
+
+  async function onConnect(err, client) {
+    if (err) return reply.send(err);
+    try {
+      const repoRes = await repo.ArticleRepo.DeleteArticle(client, input);
+      const { error } = repoRes;
+
+      if (error) return reply.send(error);
+      return SendOK(reply, null, 'Article deleted');
     } catch (err) {
       reply.send(err);
     } finally {
