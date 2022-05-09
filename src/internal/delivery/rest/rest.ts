@@ -15,8 +15,8 @@ function StartREST(config: Config) {
   // Content API / Articles
   server.get(`/content/articles`, svc.Articles.GetArticleListHandler);
   server.get(
-    '/content/articles/:article_id',
-    svc.Articles.GetArticleByIDHandler
+    '/content/articles/:slug',
+    svc.Articles.GetArticleBySlugHandler
   );
   // Content API / Topics
   server.get('/content/topics', svc.Topics.GetTopicListHandler);

@@ -3,8 +3,8 @@ import {
   Article,
   CreateArticleRequest,
   CreateArticleResponse,
-  GetArticleByIDRequest,
-  GetArticleByIDResponse,
+  GetArticleBySlugRequest,
+  GetArticleBySlugResponse,
   GetArticleListRequest,
   GetArticleListResponse,
 } from '../entity/article';
@@ -12,7 +12,7 @@ import queries from './queries';
 
 const ArticleRepo = {
   GetArticleList,
-  GetArticleByID,
+  GetArticleBySlug,
   CreateArticle,
 };
 
@@ -41,15 +41,27 @@ async function GetArticleList(
   }
 }
 
-async function GetArticleByID(
+async function GetArticleBySlug(
   client,
-  input: GetArticleByIDRequest
-): Promise<GetArticleByIDResponse> {
+  input: GetArticleBySlugRequest
+): Promise<GetArticleBySlugResponse> {
   try {
-    const { rows } = await client.query(queries.articles.queryGetArticleById, [
-      input.article_id,
-    ]);
-    const article: Article = rows[0];
+    const { rows } = await client.query(
+      queries.articles.queryGetArticleBySlug,
+      [input.slug]
+    );
+    const articleRow: Article = rows[0];
+
+    const { rows: articleTopic } = await client.query(
+      queries.articles.queryGetArticleTopicByArticleId,
+      [articleRow.article_id]
+    );
+
+    const article: Article = {
+      ...articleRow,
+      article_topic: articleTopic,
+    };
+
     return {
       data: article,
       error: null,
@@ -78,8 +90,16 @@ async function CreateArticle(
       input.published,
     ];
     const sql = queries.articles.queryCreateArticle;
-    const { rows } = await client.query(sql, params);
-    const article = rows[0];
+    const { rows: articleRows } = await client.query(sql, params);
+    const article = articleRows[0];
+
+    const sqlArticleTopic = queries.articles.queryCreateArticleTopic;
+
+    input.article_topics.map((article_topic) => {
+      const params2 = [article.article_id, article_topic.topic_id];
+      client.query(sqlArticleTopic, params2);
+    });
+
     return {
       data: article,
       error: null,

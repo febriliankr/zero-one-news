@@ -14,10 +14,6 @@ function StartServer(config: Config) {
     });
   })();
 
-  // @ts-ignore
-  const db = Object.keys(server);
-  console.log('db', db);
-
   const port = config.server.port;
 
   server.listen(port, (err) => {

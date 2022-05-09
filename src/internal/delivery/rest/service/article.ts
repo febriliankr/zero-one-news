@@ -1,36 +1,36 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   CreateArticleRequest,
-  GetArticleByIDRequest,
+  GetArticleBySlugRequest,
   GetArticleListRequest,
 } from '../../../entity/article';
 import repo from '../../../repo/repo';
 import { getPagination } from './request';
 import {
   CreateArticleHandlerFastifyRequest,
-  GetArticleByIDFastifyRequest,
+  GetArticleBySlugFastifyRequest,
 } from './types';
 
 const ArticleService = {
-  GetArticleByIDHandler,
+  GetArticleBySlugHandler,
   GetArticleListHandler,
   CreateArticleHandler,
 };
 
-async function GetArticleByIDHandler(
-  req: GetArticleByIDFastifyRequest,
+async function GetArticleBySlugHandler(
+  req: GetArticleBySlugFastifyRequest,
   reply: FastifyReply
 ) {
   await req.server.pg.connect(onConnect);
 
-  const input: GetArticleByIDRequest = {
-    article_id: req.params.article_id,
+  const input: GetArticleBySlugRequest = {
+    slug: req.params.slug,
   };
 
   async function onConnect(err, client) {
     if (err) return reply.send(err);
     try {
-      const repoRes = await repo.ArticleRepo.GetArticleByID(client, input);
+      const repoRes = await repo.ArticleRepo.GetArticleBySlug(client, input);
       const { data, error } = repoRes;
       if (error) return reply.send(error);
       return reply.send(data);
@@ -81,14 +81,15 @@ async function CreateArticleHandler(
     author: req.body.author,
     published: req.body.published,
     excerpt: req.body.excerpt,
+    article_topics: req.body.article_topics,
   };
 
   async function onConnect(err, client) {
     if (err) return reply.send(err);
     try {
       const repoRes = await repo.ArticleRepo.CreateArticle(client, input);
-
       const { data, error } = repoRes;
+
       if (error) return reply.send(error);
       return reply.send(data);
     } catch (err) {

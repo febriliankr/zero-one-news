@@ -10,13 +10,30 @@ export type Article = {
   published: boolean;
   hidden: boolean;
   excerpt: string;
+  article_topic: ArticleTopic[];
 };
 
-export type GetArticleByIDRequest = {
+export type ArticleTopic = {
+  article_topic_id: number;
   article_id: number;
+  topic_id: number;
 };
 
-export type GetArticleByIDResponse = {
+export type GetArticleTopicResponse = {
+  article_topic_id: number;
+  article_id: number;
+  topic_id: number;
+};
+
+export type CreateArticleTopicRequest = {
+  article_topic_id: number;
+};
+
+export type GetArticleBySlugRequest = {
+  slug: string;
+};
+
+export type GetArticleBySlugResponse = {
   data: Article;
   error: Error;
 };
@@ -33,7 +50,7 @@ export type GetArticleListResponse = {
   error: Error;
 };
 
-export type UpdateArticleByIDRequest = {
+export type UpdateArticleBySlugRequest = {
   article_id: number;
   title: string;
   content_plain: string;
@@ -54,6 +71,9 @@ export type CreateArticleRequest = {
   author: string;
   published: boolean;
   excerpt: string;
+  article_topics: {
+    topic_id: number;
+  }[];
 };
 
 export type CreateArticleResponse = {

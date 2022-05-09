@@ -57,3 +57,7 @@ Demo https://zero-one-news.herokuapp.com
   "published": true,
   "excerpt": "Public email about test"
 };
+
+## JOIN Notes
+
+SELECT article_topics.article_topic_id, topics.topic_id, topics.title FROM article_topics JOIN topics ON article_topics.topic_id = topics.topic_id;
