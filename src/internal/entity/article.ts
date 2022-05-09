@@ -43,6 +43,7 @@ export type GetArticleListRequest = {
   offset: number;
   limit: number;
   title?: string;
+  published: boolean;
 };
 
 export type GetArticleListResponse = {
@@ -63,6 +64,7 @@ export type UpdateArticleBySlugRequest = {
   excerpt: string;
 };
 
+// Create Article
 export type CreateArticleRequest = {
   title: string;
   content_plain: string;
@@ -77,6 +79,29 @@ export type CreateArticleRequest = {
 };
 
 export type CreateArticleResponse = {
+  data: {
+    article_id: number;
+    slug: string;
+  };
+  error: Error;
+};
+
+// Update Article
+export type UpdateArticleRequest = {
+  article_id: number;
+  title: string;
+  content_plain: string;
+  content_html: string;
+  slug: string;
+  author: string;
+  published: boolean;
+  excerpt: string;
+  article_topics: {
+    topic_id: number;
+  }[];
+};
+
+export type UpdateArticleResponse = {
   data: {
     article_id: number;
     slug: string;

@@ -22,10 +22,14 @@ function StartREST(config: Config) {
   // # Admin
   // Admin / Articles
   server.post('/admin/articles', svc.Articles.CreateArticleHandler);
-  server.patch('/admin/articles', implementedSoon);
+  server.patch(
+    '/admin/articles/:article_id',
+    svc.Articles.UpdateArticleHandler
+  );
+
   // Admin / Topics
   server.post('/admin/topics', svc.Topics.CreateTopicHandler);
-  server.patch('/admin/topics', implementedSoon);
+
   return server;
 }
 

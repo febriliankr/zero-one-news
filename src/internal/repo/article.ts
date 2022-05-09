@@ -7,6 +7,8 @@ import {
   GetArticleBySlugResponse,
   GetArticleListRequest,
   GetArticleListResponse,
+  UpdateArticleRequest,
+  UpdateArticleResponse,
 } from '../entity/article';
 import queries from './queries';
 
@@ -14,6 +16,7 @@ const ArticleRepo = {
   GetArticleList,
   GetArticleBySlug,
   CreateArticle,
+  UpdateArticle,
 };
 
 async function GetArticleList(
@@ -24,6 +27,7 @@ async function GetArticleList(
 
   try {
     const { rows } = await db.query(sql, [
+      input.published,
       input.title,
       input.offset,
       input.limit,
@@ -92,6 +96,51 @@ async function CreateArticle(
     const sql = queries.articles.queryCreateArticle;
     const { rows: articleRows } = await client.query(sql, params);
     const article = articleRows[0];
+
+    const sqlArticleTopic = queries.articles.queryCreateArticleTopic;
+
+    input.article_topics.map((article_topic) => {
+      const params2 = [article.article_id, article_topic.topic_id];
+      client.query(sqlArticleTopic, params2);
+    });
+
+    return {
+      data: article,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
+}
+async function UpdateArticle(
+  client,
+  input: UpdateArticleRequest
+): Promise<UpdateArticleResponse> {
+  try {
+    // $1, $2, $3, $4, $5, $6, $7, $8, $9
+
+    const params = [
+      input.title,
+      input.content_plain,
+      input.content_html,
+      input.slug,
+      input.author,
+      input.excerpt,
+      input.published,
+      input.article_id,
+    ];
+
+    
+    const sql = queries.articles.queryUpdateArticle;
+    const { rows: articleRows } = await client.query(sql, params);
+    const article = articleRows[0];
+
+    await client.query(queries.articles.queryCleanArticleTopicByArticleID, [
+      article.article_id,
+    ]);
 
     const sqlArticleTopic = queries.articles.queryCreateArticleTopic;
 
