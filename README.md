@@ -20,8 +20,8 @@ Tech Stack:
 - [x] CRUD endpoints for news and topic entities
 - [x] One news article can contain multiple topics
 - [x] One topic can be associated with many news articles
-- [ ] Each news article contains a status of either ‘draft’, ‘deleted’, or ‘published’
-- [ ] The GET endpoint should allow for a simple filter by status and topic
+- [x] Each news article contains a status of either ‘draft’, ‘deleted’, or ‘published’
+- [x] The GET endpoint should allow for a simple filter by status and topic
 - [ ] Bonus points for:
   - [x] An actual deployment using one of Heroku, Vercel, Netlify, GCP, Firebase, AWS, or any other platform for serving the application
   - [ ] One unit and integration test
