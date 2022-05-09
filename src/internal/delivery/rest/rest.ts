@@ -14,10 +14,7 @@ function StartREST(config: Config) {
   // # Content API
   // Content API / Articles
   server.get(`/content/articles`, svc.Articles.GetArticleListHandler);
-  server.get(
-    '/content/articles/:slug',
-    svc.Articles.GetArticleBySlugHandler
-  );
+  server.get('/content/articles/:slug', svc.Articles.GetArticleBySlugHandler);
   // Content API / Topics
   server.get('/content/topics', svc.Topics.GetTopicListHandler);
   server.get('/content/topics/:topic_id', svc.Topics.GetTopicByIDHandler);
@@ -27,7 +24,7 @@ function StartREST(config: Config) {
   server.post('/admin/articles', svc.Articles.CreateArticleHandler);
   server.patch('/admin/articles', implementedSoon);
   // Admin / Topics
-  server.post('/admin/topics', implementedSoon);
+  server.post('/admin/topics', svc.Topics.CreateTopicHandler);
   server.patch('/admin/topics', implementedSoon);
   return server;
 }

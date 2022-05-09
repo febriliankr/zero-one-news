@@ -1,4 +1,6 @@
 import {
+  CreateTopicRequest,
+  CreateTopicResponse,
   GetTopicByIDRequest,
   GetTopicByIDResponse,
   GetTopicListRequest,
@@ -10,6 +12,7 @@ import queries from './queries';
 const TopicRepo = {
   GetTopicList,
   GetTopicByID,
+  CreateTopic,
 };
 
 async function GetTopicList(
@@ -48,6 +51,28 @@ async function GetTopicByID(
     const Topic: Topic = rows[0];
     return {
       data: Topic,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    };
+  }
+}
+async function CreateTopic(
+  client,
+  input: CreateTopicRequest
+): Promise<CreateTopicResponse> {
+  try {
+    const params = [input.title, input.description];
+    const sql = queries.topics.queryCreateTopic;
+    const { rows: topicRows } = await client.query(sql, params);
+
+    return {
+      data: {
+        topic_id: topicRows[0].topic_id,
+      },
       error: null,
     };
   } catch (err) {
