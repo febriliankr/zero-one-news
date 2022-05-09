@@ -30,7 +30,7 @@ Tech Stack:
 
 ## Additional Stuffs
 
-- [ ] Auth
+- [x] Rate Limiter
 - [x] Use decorators for database connection
   - https://www.fastify.io/docs/latest/Guides/Plugins-Guide/#decorators
   - server.pg.query("SELECT \* FROM articles")
