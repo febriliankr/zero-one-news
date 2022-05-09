@@ -4,9 +4,23 @@
 -- https://tableplus.com/
 --
 -- Database: zero_one_news
--- Generation Time: 2022-05-07 02:07:11.5040
+-- Generation Time: 2022-05-09 15:47:40.1090
 -- -------------------------------------------------------------
 
+
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- Sequence and defined type
+CREATE SEQUENCE IF NOT EXISTS api_keys_api_key_id_seq;
+
+-- Table Definition
+CREATE TABLE "public"."api_keys" (
+    "api_key_id" int4 NOT NULL DEFAULT nextval('api_keys_api_key_id_seq'::regclass),
+    "key" varchar NOT NULL,
+    "admin" bool DEFAULT false,
+    "content" bool DEFAULT true,
+    PRIMARY KEY ("api_key_id")
+);
 
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
@@ -16,6 +30,8 @@ CREATE SEQUENCE IF NOT EXISTS article_topics_article_topic_id_seq;
 -- Table Definition
 CREATE TABLE "public"."article_topics" (
     "article_topic_id" int4 NOT NULL DEFAULT nextval('article_topics_article_topic_id_seq'::regclass),
+    "article_id" int8,
+    "topic_id" int8,
     PRIMARY KEY ("article_topic_id")
 );
 
@@ -27,12 +43,12 @@ CREATE SEQUENCE IF NOT EXISTS articles_article_id_seq;
 -- Table Definition
 CREATE TABLE "public"."articles" (
     "article_id" int4 NOT NULL DEFAULT nextval('articles_article_id_seq'::regclass),
-    "title" varchar,
+    "title" varchar NOT NULL,
     "content_plain" text,
     "content_html" text,
     "slug" varchar,
     "author" varchar,
-    "created_at" timestamptz,
+    "created_at" timestamptz DEFAULT now(),
     "updated_at" timestamptz,
     "published" bool,
     "hidden" bool,
@@ -56,6 +72,19 @@ CREATE TABLE "public"."topics" (
     "description" varchar,
     PRIMARY KEY ("topic_id")
 );
+
+INSERT INTO "public"."api_keys" ("api_key_id", "key", "admin", "content") VALUES
+(1, 'adevapikey', 't', 't');
+
+INSERT INTO "public"."article_topics" ("article_topic_id", "article_id", "topic_id") VALUES
+(3, 26, 3),
+(4, 26, 2),
+(5, 27, 3),
+(6, 27, 2),
+(7, 28, 3),
+(8, 28, 2),
+(9, 29, 3),
+(10, 29, 2);
 
 INSERT INTO "public"."articles" ("article_id", "title", "content_plain", "content_html", "slug", "author", "created_at", "updated_at", "published", "hidden", "excerpt") VALUES
 (1, 'When Negotiating a Price, Never Bid with a Round Number', 'Here’s an easy tip for anyone negotiating to buy a car, a house, or even a company. When you make an initial offer, don’t bid with a round number like $10,000 or $1 million or $15 per share. Rather, bid with a more precise number, like $9,800 or $1.03 million or $14.80 per share.
@@ -112,15 +141,19 @@ That said, he warns that a bid too precise may make the bidder look suspicious, 
 
 “If a bid is too precise, it may strike as strategic to the recipient, rather than being driven by superior information,” Keloharju says. “This may lead the recipient to rethink whether the bid is really informed.”', '<p> Here’s an easy tip for anyone negotiating to buy a car, a house, or even a company. When you make an initial offer, don’t bid with a round number like $10,000 or $1 million or $15 per share. Rather, bid with a more precise number, like $9,800 or $1.03 million or $14.80 per share.</p><p> According to a recent study of mergers and acquisitions, investors who offer “precise” bids for company shares yield better market outcomes than those who offer round-numbered bids.</p><blockquote> “If one party gives a round number, it gives the signal that the party doesn’t really know what it’s doing”</blockquote><p> “It turns out that if you make a precise bid, the targets are more likely to accept it, and more likely to accept it at a cheaper price. And with cash bids, they’ll generate a more positive market reaction,” says Matti Keloharju, a visiting scholar at Harvard Business School and co-author, with Petri Hukkanen, of the paper <a href="http://www.hbs.edu/faculty/Publication Files/16-058_27d73983-3441-4628-906c-10ce5fb7ac47.pdf" target="_blank" class="pdf" >Initial Offer Precision and M&amp;A Outcomes <span class="pdf-append">(pdf)</span></a >.</p>', 'price-negotiation', 'Carmen Nobel', '2022-05-07 01:02:49+07', '2022-05-07 01:03:59.528364+07', 't', 'f', '
 Investors who offer “precise” bids for company shares yield better outcomes than those who offer round-number bids, according to research by Petri Hukkanen and Matti Keloharju.'),
-(2, 'Never Bid with a Round Number Article', '“It turns out that if you make a precise bid, the targets are more likely to
-  accept it, and more likely to accept it at a cheaper price. And with cash
-  bids, they’ll generate a more positive market reaction,” says Matti Keloharju,
-  a visiting scholar at Harvard Business School and co-author, with Petri
-  Hukkanen, of the paper', '<p> Here’s an easy tip for anyone negotiating to buy a car, a house, or even a company. When you make an initial offer, don’t bid with a round number like $10,000 or $1 million or $15 per share. Rather, bid with a more precise number, like $9,800 or $1.03 million or $14.80 per share.</p><p> According to a recent study of mergers and acquisitions, investors who offer “precise” bids for company shares yield better market outcomes than those who offer round-numbered bids.</p><blockquote> “If one party gives a round number, it gives the signal that the party doesn’t really know what it’s doing”</blockquote><p> “It turns out that if you make a precise bid, the targets are more likely to accept it, and more likely to accept it at a cheaper price. And with cash bids, they’ll generate a more positive market reaction,” says Matti Keloharju, a visiting scholar at Harvard Business School and co-author, with Petri Hukkanen, of the paper <a href="http://www.hbs.edu/faculty/Publication Files/16-058_27d73983-3441-4628-906c-10ce5fb7ac47.pdf" target="_blank" class="pdf" >Initial Offer Precision and M&amp;A Outcomes <span class="pdf-append">(pdf)</span></a >.</p>', 'price-negotiation', 'Carmen Nobel', '2022-05-07 01:02:49+07', '2022-05-07 01:03:59.528364+07', 't', 'f', '
-Investors who offer “precise” bids for company shares yield better outcomes than those who offer round-number bids, according to research by Petri Hukkanen and Matti Keloharju.');
+(4, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-test', 'Febrilian Kristiawan', '2022-05-08 12:29:12.705905+07', NULL, 't', NULL, 'Public email about test'),
+(23, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-test', 'Febrilian Kristiawan', '2022-05-09 14:30:33.332913+07', NULL, 't', NULL, 'Public email about test'),
+(24, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-test', 'Febrilian Kristiawan', '2022-05-09 14:32:41.98824+07', NULL, 't', NULL, 'Public email about test'),
+(25, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-testss', 'Febrilian Kristiawan', '2022-05-09 14:35:35.423836+07', NULL, 't', 't', 'Public email about test'),
+(26, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-testss', 'Febrilian Kristiawan', '2022-05-09 14:49:28.072667+07', NULL, 't', NULL, 'Public email about test'),
+(27, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-testss', 'Febrilian Kristiawan', '2022-05-09 14:50:10.46473+07', NULL, 't', NULL, 'Public email about test'),
+(28, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-testss', 'Febrilian Kristiawan', '2022-05-09 15:20:13.718286+07', NULL, 't', NULL, 'Public email about test'),
+(29, 'Working on a Test', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'This is a public email to Zero One Group. I am trying to pass their test by building a REST API about News.', 'working-on-a-testss', 'Febrilian Kristiawan', '2022-05-09 15:20:21.950229+07', NULL, 't', NULL, 'Public email about test');
 
 INSERT INTO "public"."topics" ("topic_id", "title", "description") VALUES
 (1, 'Health', 'News about health'),
 (2, 'Sports', 'Football, basketball, boxing, and everything about sports world.'),
 (3, 'Technology', 'Tech news');
 
+ALTER TABLE "public"."article_topics" ADD FOREIGN KEY ("article_id") REFERENCES "public"."articles"("article_id");
+ALTER TABLE "public"."article_topics" ADD FOREIGN KEY ("topic_id") REFERENCES "public"."topics"("topic_id");
