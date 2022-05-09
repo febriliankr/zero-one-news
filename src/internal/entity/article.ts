@@ -44,6 +44,7 @@ export type GetArticleListRequest = {
   limit: number;
   title?: string;
   published: boolean;
+  hidden: boolean;
 };
 
 export type GetArticleListResponse = {

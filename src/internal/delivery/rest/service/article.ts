@@ -55,6 +55,7 @@ async function GetArticleListHandler(req, reply: FastifyReply) {
     ...pagination,
     title: req.query.title || '',
     published: req.query.draft === 'true' ? false : true,
+    hidden: req.query.hidden === 'true' ? true : false,
   };
 
   async function onConnect(err, client) {

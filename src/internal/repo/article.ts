@@ -34,6 +34,7 @@ async function GetArticleList(
       input.title,
       input.offset,
       input.limit,
+      input.hidden || false,
     ]);
     const articles: Article[] = rows;
     return {
@@ -172,7 +173,6 @@ async function DeleteArticle(
 
     const sql = queries.articles.queryDeleteArticle;
     const { rows: articleRows } = await client.query(sql, params);
-    const article = articleRows[0];
 
     await client.query(queries.articles.queryCleanArticleTopicByArticleID, [
       input.article_id,
